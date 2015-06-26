@@ -7,15 +7,23 @@ import cv2
 import numpy as np
 
 if __name__ == '__main__':
+
+  orb = cv2.ORB_create()
+
   cap = cv2.VideoCapture(0)
   ret, frame = cap.read()
   cv2.imshow('input', frame)
   print "Press ESC to exit"
 
+  face = cv2.imread('data/face.png')
+  cv2.imshow('face',face)
+  kp = orb.detect(face,None)
+  kp, des = orb.compute(face, kp)
+  faced = cv2.drawKeypoints(face,kp,color=(0,255,0),outImage =face, flags=0)
+  cv2.imshow('faced', faced)
+
   while(True):
     ret, frame = cap.read()
-
-    orb = cv2.ORB_create()
 
     # find the keypoints with ORB
     kp = orb.detect(frame,None)
